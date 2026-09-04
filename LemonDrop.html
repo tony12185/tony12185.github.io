@@ -276,6 +276,12 @@ html,body,tw-story,tw-passage{
   .p6-chaos-layer{width:94vw;font-size:clamp(38px,11vw,68px)}
 }
 
+
+
+.p6-auto-next-link{
+  display:none!important;
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function(){
   var audio=null, toggle=null, observer=null, p11Started=false, p12Started=false;
@@ -424,6 +430,44 @@ html,body,tw-story,tw-passage{
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",install);
   else install();
 })();
+
+
+/* Lemon Drop p6: automatically enter p7 after 4 seconds */
+(function(){
+  var p6Timer = null;
+
+  function armP6AutoNext(){
+    if(p6Timer){
+      clearTimeout(p6Timer);
+      p6Timer = null;
+    }
+
+    var passage = document.querySelector("tw-passage");
+    if(!passage) return;
+
+    var helper = passage.querySelector(".p6-auto-next-link");
+    if(!helper) return;
+
+    p6Timer = setTimeout(function(){
+      var current = document.querySelector("tw-passage");
+      if(!current || !current.querySelector(".p6-auto-next-link")) return;
+
+      var link = current.querySelector(".p6-auto-next-link tw-link, .p6-auto-next-link a");
+      if(link) link.click();
+    }, 3000);
+  }
+
+  var story = document.querySelector("tw-story");
+  if(story){
+    new MutationObserver(function(){
+      requestAnimationFrame(armP6AutoNext);
+    }).observe(story,{childList:true,subtree:true});
+  }
+
+  document.addEventListener("DOMContentLoaded", armP6AutoNext);
+  setTimeout(armP6AutoNext, 50);
+})();
+
 </script><tw-passagedata pid="1" name="Cover" tags="" position="120,120" size="100,100">&lt;div class=&quot;cover-page&quot;&gt;
 &lt;div class=&quot;cover-title&quot;&gt;Lemon Drop&lt;/div&gt;
 &lt;div class=&quot;cover-author&quot;&gt;&lt;span id=&quot;lemon-author-safe&quot;&gt;&lt;/span&gt;&lt;/div&gt;
@@ -522,7 +566,8 @@ html,body,tw-story,tw-passage{
 &lt;p&gt;正這樣思考著，宋旼琦扭頭看向了遠處的山丘，腦海中似乎閃過了些許片段，陌生的⋯⋯不、好像又有些熟悉⋯⋯一樣的白襯衫和丹寧長褲、這是他穿過的衣服；有些刺眼的燈光從頭頂往下，地板上的影子讓那雙瞳孔微微收縮、斷斷續續的還有不知從何而起的歡呼、還有其他人的身影，就在他身側⋯⋯&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;是誰⋯⋯？&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="7" name="p6" tags="" position="240,240" size="100,100">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p5]]&lt;/div&gt;
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p7]]&lt;/div&gt;
-&lt;div class=&quot;corrupt-page&quot;&gt;&lt;div class=&quot;mega-corrupt lemon-white-glitch&quot; data-text=&quot;旼……琦………….停……在……這……裡……&quot;&gt;旼……琦………….停……在……這……裡……&lt;div class=&quot;p6-chaos-layer&quot;&gt;&lt;div class=&quot;chaos-strip s1&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s2&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s3&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s4&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s5&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;p6-static-bars&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="8" name="p7" tags="" position="260,260" size="100,100">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p6]]&lt;/div&gt;
+&lt;div class=&quot;corrupt-page&quot;&gt;&lt;div class=&quot;mega-corrupt lemon-white-glitch&quot; data-text=&quot;旼……琦………….停……在……這……裡……&quot;&gt;旼……琦………….停……在……這……裡……&lt;div class=&quot;p6-chaos-layer&quot;&gt;&lt;div class=&quot;chaos-strip s1&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s2&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s3&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s4&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;div class=&quot;chaos-strip s5&quot;&gt;旼……琦………….停……在……這……裡……&lt;/div&gt;&lt;/div&gt;&lt;div class=&quot;p6-static-bars&quot;&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;span class=&quot;p6-auto-next-link&quot;&gt;[[P6AUTO-&gt;p7]]&lt;/span&gt;</tw-passagedata><tw-passagedata pid="8" name="p7" tags="" position="260,260" size="100,100">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p6]]&lt;/div&gt;
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p8]]&lt;/div&gt;
 &lt;div class=&quot;novel-page&quot;&gt;&lt;p&gt;「呀宋旼琦，冰棒都滴到地板上了。」&lt;/p&gt;
 &lt;p&gt;崔鍾浩的聲音從背後傳來，突然被拉回的思緒讓宋旼琦頓了頓，看著崔鍾浩拿著紙巾走了過來，很自然地蹲下身子擦拭著被融化的冰棒弄髒的地板，宋旼琦的視線卻鬼使神差地落在了崔鍾浩的胸前，上衣的口袋露出了一個小角，看起來是一本迷你筆記本。&lt;/p&gt;

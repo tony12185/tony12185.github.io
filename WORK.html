@@ -454,6 +454,48 @@ tw-passage p.force-red,
   visibility:hidden!important;
 }
 
+
+
+/* Small return button on the final page */
+.back-chapter-select{
+  position:fixed!important;
+  left:50%!important;
+  bottom:calc(18px + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  z-index:10020!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:7px 13px!important;
+  border:1px solid rgba(255,255,255,.42)!important;
+  border-radius:8px!important;
+  background:rgba(0,0,0,.38)!important;
+  color:rgba(255,255,255,.82)!important;
+  -webkit-text-fill-color:rgba(255,255,255,.82)!important;
+  text-decoration:none!important;
+  font-family:"Microsoft JhengHei","Noto Sans TC",sans-serif!important;
+  font-size:12px!important;
+  line-height:1.2!important;
+  letter-spacing:.04em!important;
+  font-weight:500!important;
+  white-space:nowrap!important;
+  cursor:pointer!important;
+  backdrop-filter:blur(3px);
+}
+.back-chapter-select:hover,
+.back-chapter-select:active{
+  background:rgba(0,0,0,.58)!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+@media(max-width:700px){
+  .back-chapter-select{
+    bottom:calc(12px + env(safe-area-inset-bottom))!important;
+    padding:6px 11px!important;
+    font-size:11px!important;
+  }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function(){
   var timers=[];
@@ -1140,7 +1182,8 @@ tw-passage p.force-red,
 &lt;/div&gt;&lt;div class=&quot;crt-blackout&quot;&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="15" name="p14" tags="" position="940,500" size="100,100">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p13]]&lt;/div&gt;
 &lt;div class=&quot;p14-stage&quot;&gt;
   &lt;div class=&quot;p14-farewell&quot;&gt;祝你下次任務順利&lt;/div&gt;
-&lt;/div&gt;</tw-passagedata></tw-storydata>
+&lt;/div&gt;
+&lt;a class=&quot;back-chapter-select&quot; href=&quot;index.html&quot;&gt;Back to Chapter Select&lt;/a&gt;</tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
