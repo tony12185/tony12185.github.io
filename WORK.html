@@ -496,9 +496,41 @@ tw-passage.crt-shutdown .crt-blackout {
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",install);
   else install();
 })();
+
+/* ===== WORK cover author: Harlowe-safe rendering ===== */
+(function () {
+  function injectWorkAuthor() {
+    var el = document.getElementById("work-author-safe");
+    if (el) {
+      el.textContent = "文：蘿菈 @aurora_star1117_pencake";
+    }
+  }
+
+  function installWorkAuthorWatcher() {
+    var story = document.querySelector("tw-story");
+    if (!story) {
+      requestAnimationFrame(installWorkAuthorWatcher);
+      return;
+    }
+
+    var observer = new MutationObserver(function () {
+      requestAnimationFrame(injectWorkAuthor);
+    });
+
+    observer.observe(story, { childList: true, subtree: true });
+    injectWorkAuthor();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", installWorkAuthorWatcher);
+  } else {
+    installWorkAuthorWatcher();
+  }
+})();
+
 </script><tw-passagedata pid="1" name="Cover" tags="" position="220,180" size="100,100">&lt;div class=&quot;cover-page&quot;&gt;
   &lt;div class=&quot;cover-title&quot;&gt;WORK&lt;/div&gt;
-  &lt;div class=&quot;cover-author&quot;&gt;文：蘿菈 @aurora_star1117_pencake&lt;/div&gt;
+  &lt;div class=&quot;cover-author&quot;&gt;&lt;span id=&quot;work-author-safe&quot;&gt;&lt;/span&gt;&lt;/div&gt;
   &lt;div class=&quot;cover-enter&quot;&gt;[[ENTER-&gt;p1]]&lt;/div&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="p1" tags="" position="400,180" size="100,100">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;Cover]]&lt;/div&gt;
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p2]]&lt;/div&gt;
