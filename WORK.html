@@ -369,6 +369,48 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
   }
 }
 
+
+/* ===== RESTORE WORK SYSTEM RED/BOLD TEXT ===== */
+.sys-red,
+tw-passage .sys-red,
+.novel-page .sys-red,
+.novel-page p .sys-red{
+  color:#e22232!important;
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
+  font-weight:900!important;
+}
+
+/* Preserve red/bold styling used by WORK's scripted system pages */
+.p1-stage,
+.p1-stage .p1-line,
+.p12-stage,
+.p12-stage .seq-line,
+.p12-stage .corrupt-line{
+  color:#e22232!important;
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
+  font-weight:900!important;
+}
+
+
+/* ===== USER-SPECIFIED WORK SYSTEM TEXT: RED + BOLD ===== */
+.requested-system-red,
+tw-passage .requested-system-red,
+.novel-page .requested-system-red,
+.novel-page p .requested-system-red{
+  color:#e22232!important;
+  font-weight:900!important;
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
+}
+
+
+/* ===== HARD OVERRIDE FOR USER-SPECIFIED SYSTEM PARAGRAPHS ===== */
+tw-passage p.force-red,
+.novel-page p.force-red{
+  color:#e22232!important;
+  font-weight:900!important;
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function(){
   var timers=[];
@@ -679,9 +721,9 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;p class=&quot;&quot;&gt;『啪噠啪噠——』「咕——咕咕——」&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦甫開門就被公雞的翅膀拍打聲跟叫聲給嚇地罵了一聲髒話，而辦公室的主人只是好整以暇地輕聲道：「旼琦啊快關門，小心我的金咕咕跑走了。」&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;對方說話時眼皮連抬都沒有，手裡拿著金色修長銳利的剪刀，專注裁剪著手上印著滿版鈔票的紙張——或說假鈔。&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;【少爺 姜呂尚】&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;好感值 92&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;信任值 46&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【少爺 姜呂尚】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;好感值 92&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;信任值 46&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦看著這個數值感到頭痛。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;他來到這個世界初始便手握一間巧克力工廠，還以為這次能夠擁有一個輕鬆的開局，殊不知一開始光是為了讓工廠維持正收益就讓他忙到差點忘了自己的主線任務，好在合夥人很可靠，省去他很多煩惱。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;此外，目標對象的資訊也意外好取得，在鎮上十分出名。&lt;/p&gt;
@@ -703,9 +745,9 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;p class=&quot;&quot;&gt;宋旼琦沒想到家喻戶曉的童話故事會以這樣的形式呈現在如此物品上。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;他並非透過僅僅幾秒鐘的觀察就能瞧出這些細節的人，只是因為之前他就好好端詳過這把剪刀。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦回憶起初見的場景，想當初自己也沒有很認真把工廠收益當一回事，但他沒想到接近目標的第一個場所就立刻讓他認清此次攻略對象的成本不低——&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;【前往地下拍賣會需繳交入場費200萬G】&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;是否繳交？&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;是／否&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【前往地下拍賣會需繳交入場費200萬G】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;是否繳交？&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;是／否&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦看到系統跳出來的訊息一瞬間驚愕不已，趕緊點開自己的狀態欄確認資產狀況。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;幸好，感謝合夥人的幫助使他現在算是半個富豪，於是他大方選擇了『是』。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦順利進入了拍賣會。&lt;/p&gt;
@@ -753,8 +795,8 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;p class=&quot;&quot;&gt;管家聽聞只是淡定地說了聲會代為轉達便鞠躬離開，過了一會兒，他就看到管家重新出現在對面欠身和姜呂尚接耳。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;因為距離跟面具的關係，宋旼琦無法確定姜呂尚的反應究竟是好是壞，只能眼睜睜看著對方在貌似聽完訊息後瞄了他一眼、接著起身離席。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;⋯⋯大概是搞砸了。宋旼琦有點懊惱地想，卻馬上聽到系統傳來提示音。&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;【已偵測到目標對象 姜呂尚 好感值上升】&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;好感值 44 → 66&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【已偵測到目標對象 姜呂尚 好感值上升】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;好感值 44 → 66&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦還在為了『為什麼初始好感值不是0』跟『好感值一下子加這麼快是正常的嗎』兩個問題來回疑惑時，管家又再度出現，並遞上了一張專屬姜家的邀請函。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;他接過卡片，上頭鑲著優雅的金邊，封蠟的顏色不是常見棕紅色，偏淡，讓人想起主人眼尾橫生的胎記，在他手上散發著對方充滿個人特色如初生般的純淨氣味。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;「旼琦，在想什麼？」姜呂尚的呼喚把宋旼琦從回憶中拉回。&lt;/p&gt;
@@ -762,8 +804,8 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;p class=&quot;&quot;&gt;「⋯⋯我在想、」&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦緩緩靠近姜呂尚，手撐在對方椅子的扶手上，低頭熟稔地與對方的唇短暫相貼。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;「這個。」&lt;/p&gt;
-&lt;p class=&quot;&quot;&gt;&lt;span class=&quot;sys-red&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/span&gt;&lt;/p&gt;
-&lt;p class=&quot;&quot;&gt;&lt;span class=&quot;sys-red&quot;&gt;信任值46 → 49&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;信任值46 → 49&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;一個吻才增加3，少爺越來越小氣了。宋旼琦偷偷抱怨。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;想當初用彆扭的藉口拜訪了姜呂尚住宅的第一天，只是親在臉頰上就增加12了。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;起初宋旼琦嘗試攻略姜呂尚攻略得很挫折。&lt;/p&gt;
@@ -799,8 +841,8 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p8]]&lt;/div&gt;
 &lt;div class=&quot;novel-page&quot;&gt;
 &lt;p class=&quot;&quot;&gt;「⋯⋯我改天一定要偷走你這隻雞。」宋旼琦被氣得不輕，惡狠狠地想，就算不是任務目標他也要把牠處理掉。&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;信任值49 → 64&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;信任值49 → 64&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦瞧著姜呂尚剛射完就能馬上若無其事樣地從抽屜裡拿出一顆檸檬口味的涼糖遞進他的口中，他一邊舔著酸甜的糖衣一邊腹誹姜少爺真是有夠悶騷，不知道的話還以為對方平靜的表情底下真的對他剛才的服務沒有絲毫波瀾。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;而姜呂尚對於宋旼琦遷怒自己的生財工具也不惱，笑著說旼琦喜歡的話就直接送給旼琦啊。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦把兩人稍微整理好後若有所思地起身，隨後一個側身坐上少爺的大腿，問說那其他收藏品也可以嗎。&lt;/p&gt;
@@ -826,7 +868,7 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
 &lt;p class=&quot;&quot;&gt;姜呂尚的眼睛撲閃著明亮的水光，有點像期待搖尾的小狗。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;也許是浴室的熱氣朦朧又或者是水氣氤氳，宋旼琦在溫暖搖曳的洗澡水中被晃得有些失神。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;「以後」兩個字被懷裡的少爺講得像是在許願，讓宋旼琦不自覺被牽動，想像更未來的畫面。&lt;/p&gt;
-&lt;p class=&quot;system-red&quot;&gt;【恭喜，你已經解鎖達成主要目標的關鍵前置事件】&lt;/p&gt;
+&lt;p class=&quot;system-red force-red&quot; style=&quot;color:#e22232 !important;font-weight:900 !important;font-family:&#39;Noto Sans Mono CJK TC&#39;,&#39;Noto Sans Mono&#39;,&#39;Microsoft JhengHei&#39;,monospace !important;&quot;&gt;【恭喜，你已經解鎖達成主要目標的關鍵前置事件】&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;蹦旼的聲音突然響起，提醒著他手上進行的任務。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;這邊的世界生活得太舒適，跟姜呂尚相處的日子太愜意，宋旼琦差點忘了他有更重要的目標。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;原本要說的「好」被硬生生吞了回去，他隨口應了聲，怕太過敷衍又低頭吻了姜呂尚的額頭、說著對方露額頭也很好看下次可以換個髮型，換來一個少爺被逗樂的笑容。&lt;/p&gt;
