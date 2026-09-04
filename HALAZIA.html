@@ -452,6 +452,92 @@ tw-passage.p12-shutting .p12-stage {
   to   { opacity: 1; }
 }
 
+
+/* ===== Android-safe p8 glitch ===== */
+.android-corrupt-page{
+  min-height:calc(100vh - 150px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:20px 0;
+}
+
+.android-corrupt{
+  width:min(1050px,92vw);
+  text-align:center;
+  color:#ed1c2e;
+  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;
+  font-weight:900;
+  font-size:clamp(42px,7vw,96px);
+  line-height:1.25;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  text-shadow:
+    2px 0 rgba(255,70,70,.9),
+    -2px 0 rgba(80,0,0,.9),
+    0 0 14px rgba(255,0,0,.5);
+  animation:androidGlitchShake .22s infinite steps(2,end),
+            androidGlitchFlicker 1.2s infinite;
+  transform:translateZ(0);
+  backface-visibility:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+.android-corrupt span{
+  display:inline-block;
+  position:relative;
+}
+
+.android-corrupt span:nth-child(3n+1){
+  animation:androidCharShift .58s infinite steps(2,end);
+}
+.android-corrupt span:nth-child(4n+2){
+  animation:androidCharShift2 .73s infinite steps(2,end);
+}
+.android-corrupt .dots{
+  letter-spacing:.08em;
+  opacity:.88;
+}
+
+@keyframes androidGlitchShake{
+  0%{transform:translate3d(0,0,0) skewX(0deg)}
+  25%{transform:translate3d(-2px,1px,0) skewX(-1deg)}
+  50%{transform:translate3d(2px,-1px,0) skewX(1deg)}
+  75%{transform:translate3d(-1px,0,0) skewX(.5deg)}
+  100%{transform:translate3d(0,0,0) skewX(0deg)}
+}
+@keyframes androidGlitchFlicker{
+  0%,17%,21%,48%,52%,100%{opacity:1}
+  18%,20%{opacity:.42}
+  49%,51%{opacity:.68}
+}
+@keyframes androidCharShift{
+  0%,100%{transform:translate(0,0)}
+  40%{transform:translate(-2px,-2px)}
+  60%{transform:translate(2px,1px)}
+}
+@keyframes androidCharShift2{
+  0%,100%{transform:translate(0,0)}
+  35%{transform:translate(1px,2px)}
+  70%{transform:translate(-1px,-1px)}
+}
+
+@media(max-width:700px){
+  .android-corrupt{
+    width:88vw;
+    font-size:clamp(38px,11vw,66px);
+    line-height:1.3;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .android-corrupt,
+  .android-corrupt span{
+    animation:none !important;
+  }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function () {
   var autoTimer = null;
@@ -769,7 +855,13 @@ tw-passage.p12-shutting .p12-stage {
 &lt;p&gt;不過他想到了解決辦法，如果說這是一場跟著劇本走的遊戲，完整的故事只要從根本上改寫「定義」，那麼終有一天，這個世界會因為已經改變的劇本進而去承認宋旼琦這個人的存在。&lt;/p&gt;
 &lt;p class=&quot;system-red overwrite-type&quot;&gt;&lt;span class=&quot;type-target&quot; data-type-text=&quot;【——世界權限覆寫中——】&quot;&gt;&lt;/span&gt;&lt;span class=&quot;type-caret&quot;&gt;▋&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;刺耳、重複、絲毫沒有要停下的警示音狂暴的響著。下一秒空氣中的神性就在剎那間無聲地收束，像是滿溢的潮水迅速的退去，警示音停下，世界彷彿被抽了真空一樣寂靜無聲。&lt;/p&gt;
-&lt;/div&gt;</tw-passagedata><tw-passagedata pid="9" name="p8" tags="" position="640,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p7]]&lt;/div&gt;&lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p9]]&lt;/div&gt;&lt;div class=&quot;corrupt-page&quot;&gt;&lt;div class=&quot;mega-corrupt&quot; data-text=&quot;【҈̦̥̍͗宋҈͍͉͌̂旼҈̍̀̾̿…̴̐̌͂…̶̀̈͗琦̵̑̀̽…̷̩̑̚…̷̾̍̚你̴̇̈̐…̴̆̉̆…҈̣̟͐̏願̸̝̊̓望̶͑͊̅…̷̇͗̐…̵͑̈́̃是̵̋̑̇什̷̏̾̚…̴̩̒̎…̷̾̒̚？҉͛̃̿͋】̴̗̓͗&quot;&gt;【҈̦̥̍͗宋҈͍͉͌̂旼҈̍̀̾̿…̴̐̌͂…̶̀̈͗琦̵̑̀̽…̷̩̑̚…̷̾̍̚你̴̇̈̐…̴̆̉̆…҈̣̟͐̏願̸̝̊̓望̶͑͊̅…̷̇͗̐…̵͑̈́̃是̵̋̑̇什̷̏̾̚…̴̩̒̎…̷̾̒̚？҉͛̃̿͋】̴̗̓͗&lt;/div&gt;&lt;/div&gt;</tw-passagedata><tw-passagedata pid="10" name="p9" tags="" position="820,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p8]]&lt;/div&gt;&lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p10]]&lt;/div&gt;&lt;div class=&quot;novel-page&quot;&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="9" name="p8" tags="" position="640,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p7]]&lt;/div&gt;
+&lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p9]]&lt;/div&gt;
+&lt;div class=&quot;corrupt-page android-corrupt-page&quot;&gt;
+  &lt;div class=&quot;android-corrupt&quot; aria-label=&quot;宋旼琦，你願望是什麼？&quot;&gt;
+    【&lt;span&gt;宋&lt;/span&gt;&lt;span&gt;旼&lt;/span&gt;&lt;span&gt;琦&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;你&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;願&lt;/span&gt;&lt;span&gt;望&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;是&lt;/span&gt;&lt;span&gt;什&lt;/span&gt;&lt;span&gt;麼&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;？&lt;/span&gt;】
+  &lt;/div&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="10" name="p9" tags="" position="820,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p8]]&lt;/div&gt;&lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p10]]&lt;/div&gt;&lt;div class=&quot;novel-page&quot;&gt;
 &lt;p&gt;黑暗之中，燈光倏然亮起。&lt;/p&gt;
 &lt;p&gt;是一盞舞台燈。&lt;/p&gt;
 &lt;p&gt;宋旼琦猛地回過神來，低頭時看見自己戴滿五金配件的手正緊握著灰色的麥克風。屬於他們的音樂尚未開始，粉絲的喧嘩與應援被隔在光之外，他站在舞台正中央，隨著布幕升起緩緩抬起頭。&lt;/p&gt;
