@@ -411,6 +411,49 @@ tw-passage p.force-red,
   font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
 }
 
+
+/* ===== WORK V12-based p12 local change only ===== */
+.p12-stage .seq-group[data-key="base"] > .work-v12-target,
+.p12-stage .seq-group[data-key="base"] > .work-v12-correction{
+  display:block!important;
+  position:static!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  transform:none!important;
+  width:100%!important;
+  min-height:1.75em!important;
+  margin:.14em 0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+  color:#e22232!important;
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace!important;
+  font-weight:900!important;
+  font-size:18px!important;
+  line-height:1.75!important;
+  text-align:left!important;
+}
+.p12-stage .seq-group[data-key="base"] > .work-v12-correction{
+  opacity:0;
+}
+@media(max-width:700px){
+  .p12-stage .seq-group[data-key="base"] > .work-v12-target,
+  .p12-stage .seq-group[data-key="base"] > .work-v12-correction{
+    font-size:16px!important;
+    line-height:1.65!important;
+    min-height:1.65em!important;
+  }
+}
+
+
+/* ===== WORK V20 -> V21: correction lines must stay completely hidden until dots finish ===== */
+.p12-stage .seq-group[data-key="base"] > .work-v12-correction{
+  display:none!important;
+  opacity:0!important;
+  visibility:hidden!important;
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function(){
   var timers=[];
@@ -549,34 +592,116 @@ tw-passage p.force-red,
 
   function runP12(passage){
     var baseGroup=passage.querySelector('.seq-group[data-key="base"]');
-    var corrupt=passage.querySelector(".corrupt-line");
-    var corruptText=corrupt ? corrupt.getAttribute("data-text") : "";
-    if(corrupt){
-      var ta=document.createElement("textarea");
-      ta.innerHTML=corruptText;
-      corruptText=ta.value;
+    var target=baseGroup ? baseGroup.querySelector(".work-v12-target") : null;
+    var corrections=baseGroup ? Array.from(baseGroup.querySelectorAll(".work-v12-correction")) : [];
+    var targetText="目標關鍵物毀損";
+
+    /* Hard reset: correction placeholders begin completely empty and hidden. */
+    corrections.forEach(function(line){
+      line.textContent="";
+      line.style.setProperty("display","none","important");
+      line.style.setProperty("visibility","hidden","important");
+      line.style.setProperty("opacity","0","important");
+    });
+
+    function typeDeleteTarget(done){
+      if(!target){ if(done)done(); return; }
+
+      target.textContent="";
+      var chars=Array.from(targetText);
+      var i=0;
+
+      function typeOne(){
+        if(i < chars.length){
+          i++;
+          target.textContent=chars.slice(0,i).join("");
+          later(typeOne,120);
+        }else{
+          later(deleteOne,650);
+        }
+      }
+
+      function deleteOne(){
+        if(i > 0){
+          i--;
+          target.textContent=chars.slice(0,i).join("");
+          later(deleteOne,95);
+        }else{
+          target.textContent="……";
+          /* Wait for the …… phase to fully finish before ANY correction line appears. */
+          later(function(){ if(done)done(); },1200);
+        }
+      }
+
+      typeOne();
     }
 
-    // Match HALAZIA p11: 【世界結算中……】 is the first accumulated line
-    // of the opening settlement group; no bouncing or duplicate appearance.
+    function revealCorrections(done){
+      var i=0;
+      var correctionTexts=[
+        "……更正。",
+        "異常行為記錄：",
+        "－無",
+        "評價修正中……"
+      ];
+
+      function revealNext(){
+        if(i >= corrections.length){
+          /* All four lines are now visible together. Hold, then fade the whole block. */
+          later(function(){ if(done)done(); },1400);
+          return;
+        }
+
+        var line=corrections[i];
+
+        /* The text does not exist in the passage before this moment.
+           Inject it only after the …… phase has fully finished. */
+        line.textContent=correctionTexts[i];
+        line.style.setProperty("display","block","important");
+        line.style.setProperty("visibility","visible","important");
+        line.style.setProperty("opacity","0","important");
+        line.style.transform="translateY(4px)";
+
+        requestAnimationFrame(function(){
+          line.style.transition="opacity .42s ease-out, transform .42s ease-out";
+          line.style.setProperty("opacity","1","important");
+          line.style.transform="translateY(0)";
+        });
+
+        i++;
+        later(revealNext,720);
+      }
+
+      revealNext();
+    }
+
     later(function(){
       runGroup(passage,"world",false,function(){
         runGroup(passage,"base",true,function(){
-          typeDelete(corrupt,corruptText,function(){
-            runGroup(passage,"correct",false,function(){
-              // clear the persistent main-goal block after correction is resolved
-              if(baseGroup){ fadeEl(baseGroup,500); later(function(){baseGroup.style.display="none";},550); }
-              runGroup(passage,"final",false,function(){
-                runGroup(passage,"hidden",false,function(){
-                  runGroup(passage,"investor",false,function(){
-                    runGroup(passage,"close",false,function(){
-                      runGroup(passage,"leave",false,function(){
-                        clickAuto(passage,250);
+
+          /* Only this sequence is changed from V12 */
+          typeDeleteTarget(function(){
+            revealCorrections(function(){
+
+              if(baseGroup){
+                fadeEl(baseGroup,500);
+                later(function(){baseGroup.style.display="none";},550);
+              }
+
+              /* Original V12 p12 effects continue unchanged */
+              later(function(){
+                runGroup(passage,"final",false,function(){
+                  runGroup(passage,"hidden",false,function(){
+                    runGroup(passage,"investor",false,function(){
+                      runGroup(passage,"close",false,function(){
+                        runGroup(passage,"leave",false,function(){
+                          clickAuto(passage,250);
+                        });
                       });
                     });
                   });
                 });
-              });
+              },600);
             });
           });
         });
@@ -967,14 +1092,11 @@ tw-passage p.force-red,
 &lt;div class=&quot;seq-line&quot;&gt;－成功盜取少爺最珍愛的收藏品&lt;/div&gt;
 &lt;div class=&quot;seq-line&quot;&gt;狀態：已完成&lt;/div&gt;
 &lt;div class=&quot;seq-line&quot;&gt;異常行為記錄：&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&quot;corrupt-line&quot; data-text=&quot;－.̷̡̩̝目҈̡͇͕̬.̴̨̟̘標҉̭͙̫̖.҉̡̠͖͛關҈̨̥̩̪.̴̧̯͖鍵̶̧̛̪.̴̡̗̞物̶͔̖̭҇̔͗̉͢.̸̨̜͚損̸̟̱̗.̴̢̞̦҇̌̓̋͆毀̵̬̦̮.̸̢̝̗&quot;&gt;&lt;/div&gt;
-&lt;div class=&quot;seq-group&quot; data-key=&quot;correct&quot;&gt;
-&lt;div class=&quot;seq-line&quot;&gt;……&lt;/div&gt;
-&lt;div class=&quot;seq-line&quot;&gt;……更正。&lt;/div&gt;
-&lt;div class=&quot;seq-line&quot;&gt;異常行為記錄：&lt;/div&gt;
-&lt;div class=&quot;seq-line&quot;&gt;－無&lt;/div&gt;
-&lt;div class=&quot;seq-line&quot;&gt;評價修正中……&lt;/div&gt;
+&lt;div class=&quot;work-v12-target&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;work-v12-correction&quot; data-line=&quot;0&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;work-v12-correction&quot; data-line=&quot;1&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;work-v12-correction&quot; data-line=&quot;2&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;work-v12-correction&quot; data-line=&quot;3&quot;&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class=&quot;seq-group&quot; data-key=&quot;final&quot;&gt;
 &lt;div class=&quot;seq-line&quot;&gt;【最終評價】&lt;/div&gt;
