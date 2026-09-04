@@ -297,6 +297,55 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
   }
 }
 
+
+/* ===== Layout refinements V3 ===== */
+
+/* Cover ENTER button: larger and slightly higher */
+.cover-page tw-link,
+.cover-page a,
+.cover-page .link-internal {
+  font-size: 1.28em !important;
+  font-weight: 700 !important;
+  padding: 0.65em 1.35em !important;
+  min-width: 120px !important;
+  text-align: center !important;
+  transform: translateY(-24px) !important;
+}
+
+/* p1 grouped red text, excluding the first two centered opening messages */
+.p1-group {
+  top: 33.333vh !important;
+}
+@supports (height: 100dvh) {
+  .p1-group { top: 33.333dvh !important; }
+}
+
+/* p12 block around upper one-third of viewport */
+.p12-stage {
+  min-height: calc(100vh - 120px) !important;
+  justify-content: flex-start !important;
+  padding-top: 27vh !important;
+  box-sizing: border-box !important;
+}
+@supports (height: 100dvh) {
+  .p12-stage {
+    min-height: calc(100dvh - 120px) !important;
+    padding-top: 27dvh !important;
+  }
+}
+
+@media(max-width:700px) {
+  .cover-page tw-link,
+  .cover-page a,
+  .cover-page .link-internal {
+    font-size: 1.22em !important;
+    padding: 0.7em 1.4em !important;
+    min-width: 116px !important;
+    transform: translateY(-28px) !important;
+  }
+  .p12-stage { padding-top: 25dvh !important; }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function () {
   var autoTimer = null;
