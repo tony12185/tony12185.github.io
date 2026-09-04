@@ -260,6 +260,115 @@ tw-passage.crt-shutdown .crt-blackout {
   .corrupt-line { top:40%; width:84vw; font-size:16px; }
   .p13-stage { padding-top:13dvh; }
 }
+
+/* ===== WORK settlement opening matched to HALAZIA p11 ===== */
+.p12-stage .halazia-settle-group{
+  position:fixed !important;
+  left:50% !important;
+  top:50% !important;
+  width:min(790px,86vw) !important;
+  transform:translate(-50%,-50%) !important;
+}
+
+.p12-stage .halazia-settle-group .seq-line{
+  font-family:"Noto Sans Mono CJK TC","Noto Sans Mono","Microsoft JhengHei",monospace !important;
+  font-weight:900 !important;
+  color:#e22232 !important;
+  margin:.18em 0 !important;
+  transform:translateY(4px);
+}
+
+@media(max-width:700px){
+  .p12-stage .halazia-settle-group{
+    width:82vw !important;
+  }
+  .p12-stage .halazia-settle-group .seq-line{
+    font-size:16px !important;
+    line-height:1.65 !important;
+  }
+}
+
+
+/* ===== ONLY 【世界結算中……】: HALAZIA p11 exact entrance ===== */
+.p12-stage .exact-halazia-world-settle{
+  opacity:0;
+  transform:translateY(4px);
+  margin:.18em 0!important;
+  transition:none!important;
+  animation:work-p11-line-exact .65s ease-out 0s both!important;
+}
+@keyframes work-p11-line-exact{
+  0%{
+    opacity:0;
+    transform:translateY(4px);
+    filter:blur(1px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+  }
+}
+
+
+/* ===== FIXED: ONLY 【世界結算中……】 matches HALAZIA p11 ===== */
+.p12-stage .exact-halazia-world-settle{
+  opacity:0;
+  transform:translateY(4px);
+  margin:.18em 0!important;
+  transition:none!important;
+  animation:work-world-settle-halazia .65s ease-out 0s both!important;
+}
+@keyframes work-world-settle-halazia{
+  0%{
+    opacity:0;
+    transform:translateY(4px);
+    filter:blur(1px);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0);
+    filter:blur(0);
+  }
+}
+
+
+/* ===== AUTHORITATIVE BASE TEXT LAYOUT: EXACTLY MATCH HALAZIA ===== */
+tw-passage{display:block!important;position:relative!important;width:min(980px,calc(100vw - 120px))!important;max-width:980px!important;min-height:100vh!important;margin:0 auto!important;padding:58px 54px 92px!important;box-sizing:border-box!important;font-family:"Noto Serif TC","Source Han Serif TC","Songti TC","PMingLiU","Microsoft JhengHei",serif!important;font-size:19px!important;line-height:2!important;letter-spacing:.02em!important;writing-mode:horizontal-tb!important;white-space:normal!important;word-break:normal!important;overflow-wrap:break-word!important}
+tw-passage p{margin:0 0 1.1em!important}
+
+/* Neutralize WORK-specific normal prose overrides so HALAZIA base wins */
+.novel-page{
+  width:auto!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:0!important;
+}
+.novel-page p{
+  font:inherit!important;
+  color:#fff!important;
+  margin:0 0 1.1em!important;
+  line-height:inherit!important;
+  letter-spacing:inherit!important;
+}
+
+/* Exact HALAZIA mobile passage geometry */
+@media(max-width:700px){
+tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!important;padding:calc(28px + env(safe-area-inset-top)) calc(46px + env(safe-area-inset-right)) calc(62px + env(safe-area-inset-bottom)) calc(46px + env(safe-area-inset-left))!important;font-size:17.5px!important;line-height:1.9!important}
+@media(max-width:700px){
+  .novel-page{
+    width:auto!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .novel-page p{
+    font:inherit!important;
+    line-height:inherit!important;
+    margin:0 0 1.1em!important;
+  }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function(){
   var timers=[];
@@ -366,14 +475,23 @@ tw-passage.crt-shutdown .crt-blackout {
     var g=passage.querySelector('.seq-group[data-key="'+key+'"]');
     if(!g){ if(done)done(); return; }
     var lines=Array.from(g.querySelectorAll(".seq-line"));
+    var isHalaziaSettle = (key === "world");
+    var cadence = isHalaziaSettle ? 850 : 720;
+    var fadeTime = isHalaziaSettle ? 650 : 420;
+
     g.style.display="block";
     lines.forEach(function(line,i){
       later(function(){
-        line.style.transition="opacity .42s ease";
+        if(line.classList.contains("exact-halazia-world-settle")){
+          return; // CSS above reproduces HALAZIA p11 exactly for this sentence only.
+        }
+        line.style.transition="opacity "+fadeTime+"ms ease-out, transform "+fadeTime+"ms ease-out, filter "+fadeTime+"ms ease-out";
         line.style.opacity="1";
-      },i*720);
+        line.style.transform="translateY(0)";
+        line.style.filter="blur(0)";
+      },i*cadence);
     });
-    var reveal=(Math.max(0,lines.length-1)*720)+500;
+    var reveal=(Math.max(0,lines.length-1)*cadence)+fadeTime;
     later(function(){
       if(keep){
         if(done) done();
@@ -388,7 +506,6 @@ tw-passage.crt-shutdown .crt-blackout {
   }
 
   function runP12(passage){
-    var settle=passage.querySelector(".settle-bounce");
     var baseGroup=passage.querySelector('.seq-group[data-key="base"]');
     var corrupt=passage.querySelector(".corrupt-line");
     var corruptText=corrupt ? corrupt.getAttribute("data-text") : "";
@@ -398,10 +515,8 @@ tw-passage.crt-shutdown .crt-blackout {
       corruptText=ta.value;
     }
 
-    // settling message, twice in place
-    later(function(){ settle.classList.add("run"); },250);
-    later(function(){ settle.style.opacity="0"; },1450);
-
+    // Match HALAZIA p11: 【世界結算中……】 is the first accumulated line
+    // of the opening settlement group; no bouncing or duplicate appearance.
     later(function(){
       runGroup(passage,"world",false,function(){
         runGroup(passage,"base",true,function(){
@@ -424,7 +539,7 @@ tw-passage.crt-shutdown .crt-blackout {
           });
         });
       });
-    },1900);
+    },250);
   }
 
   function runP13(passage){
@@ -647,8 +762,8 @@ tw-passage.crt-shutdown .crt-blackout {
 &lt;p class=&quot;&quot;&gt;「⋯⋯我在想、」&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;宋旼琦緩緩靠近姜呂尚，手撐在對方椅子的扶手上，低頭熟稔地與對方的唇短暫相貼。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;「這個。」&lt;/p&gt;
-&lt;p class=&quot;&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/p&gt;
-&lt;p class=&quot;&quot;&gt;信任值46 → 49&lt;/p&gt;
+&lt;p class=&quot;&quot;&gt;&lt;span class=&quot;sys-red&quot;&gt;【已偵測到目標對象 姜呂尚 信任值上升】&lt;/span&gt;&lt;/p&gt;
+&lt;p class=&quot;&quot;&gt;&lt;span class=&quot;sys-red&quot;&gt;信任值46 → 49&lt;/span&gt;&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;一個吻才增加3，少爺越來越小氣了。宋旼琦偷偷抱怨。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;想當初用彆扭的藉口拜訪了姜呂尚住宅的第一天，只是親在臉頰上就增加12了。&lt;/p&gt;
 &lt;p class=&quot;&quot;&gt;起初宋旼琦嘗試攻略姜呂尚攻略得很挫折。&lt;/p&gt;
@@ -798,8 +913,9 @@ tw-passage.crt-shutdown .crt-blackout {
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p13]]&lt;/div&gt;
 &lt;span class=&quot;auto-next-link&quot;&gt;[[AUTO-&gt;p13]]&lt;/span&gt;
 &lt;div class=&quot;p12-stage&quot;&gt;
-&lt;div class=&quot;settle-bounce&quot;&gt;【世界結算中……】&lt;/div&gt;
-&lt;div class=&quot;seq-group&quot; data-key=&quot;world&quot;&gt;
+
+&lt;div class=&quot;seq-group halazia-settle-group&quot; data-key=&quot;world&quot; style=&quot;display:block&quot;&gt;
+&lt;div class=&quot;seq-line halazia-settle-line exact-halazia-world-settle&quot; style=&quot;--line-delay:0.00s&quot;&gt;【世界結算中……】&lt;/div&gt;
 &lt;div class=&quot;seq-line&quot;&gt;世界編號：W-46Work&lt;/div&gt;
 &lt;div class=&quot;seq-line&quot;&gt;世界性質：西部／淘金&lt;/div&gt;
 &lt;div class=&quot;seq-line&quot;&gt;你的身份：怪盜（兼巧克力工廠老闆）&lt;/div&gt;

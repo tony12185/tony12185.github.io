@@ -538,6 +538,531 @@ tw-passage.p12-shutting .p12-stage {
   }
 }
 
+
+/* ===== p8 cross-platform heavy glitch ===== */
+.xp-corrupt-page{
+  position:relative;
+  min-height:calc(100vh - 150px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.xp-glitch-wrap{
+  position:relative;
+  width:min(1100px,92vw);
+  min-height:1.8em;
+  text-align:center;
+  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC",sans-serif;
+  font-weight:900;
+  font-size:clamp(44px,7vw,100px);
+  line-height:1.24;
+  color:#f0162e;
+  word-break:break-word;
+  overflow-wrap:anywhere;
+  transform:translateZ(0);
+  animation:xpWrapJolt .19s infinite steps(2,end);
+}
+
+.xp-glitch-main,
+.xp-glitch-layer{
+  width:100%;
+  text-align:center;
+  white-space:normal;
+}
+
+.xp-glitch-main{
+  position:relative;
+  z-index:4;
+  text-shadow:
+    0 0 7px rgba(255,0,0,.95),
+    2px 0 0 rgba(255,110,110,.9),
+    -2px 0 0 rgba(70,0,0,.95),
+    0 0 20px rgba(255,0,0,.45);
+  animation:xpMainFlicker 1.15s infinite steps(1,end);
+}
+
+.xp-glitch-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  opacity:.58;
+  mix-blend-mode:screen;
+  color:#ff3347;
+}
+
+.xp-back-a{
+  transform:translate(-4px,1px);
+  text-shadow:5px 0 rgba(110,0,0,.8);
+  animation:xpGhostA .31s infinite steps(2,end);
+}
+
+.xp-back-b{
+  transform:translate(4px,-2px);
+  color:#b90016;
+  opacity:.48;
+  text-shadow:-4px 0 rgba(255,70,70,.72);
+  animation:xpGhostB .27s infinite steps(2,end);
+}
+
+.xp-glitch-main span{
+  display:inline-block;
+  position:relative;
+  will-change:transform,opacity;
+}
+
+.xp-glitch-main .g1,
+.xp-glitch-main .g4,
+.xp-glitch-main .g7{
+  animation:xpCharA .42s infinite steps(2,end);
+}
+
+.xp-glitch-main .g2,
+.xp-glitch-main .g5,
+.xp-glitch-main .g8{
+  animation:xpCharB .53s infinite steps(2,end);
+}
+
+.xp-glitch-main .g3,
+.xp-glitch-main .g6,
+.xp-glitch-main .g9,
+.xp-glitch-main .g10{
+  animation:xpCharC .47s infinite steps(2,end);
+}
+
+.xp-glitch-main .gd{
+  opacity:.82;
+  letter-spacing:.07em;
+  animation:xpDots 1.0s infinite steps(2,end);
+}
+
+/* Visible noise, intentionally detached from glyphs so Android does not drop text */
+.xp-noise{
+  position:absolute;
+  left:50%;
+  width:96vw;
+  transform:translateX(-50%);
+  color:rgba(255,35,55,.48);
+  font-family:monospace;
+  font-weight:900;
+  font-size:clamp(16px,3vw,34px);
+  letter-spacing:.35em;
+  word-break:break-all;
+  text-align:center;
+  pointer-events:none;
+  z-index:1;
+  filter:blur(.2px);
+}
+
+.xp-noise-a{
+  top:25%;
+  animation:xpNoiseA .45s infinite steps(2,end);
+}
+
+.xp-noise-b{
+  bottom:24%;
+  animation:xpNoiseB .39s infinite steps(2,end);
+}
+
+.xp-scanlines{
+  position:absolute;
+  inset:0;
+  z-index:5;
+  pointer-events:none;
+  opacity:.16;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.09) 0,
+      rgba(255,255,255,.09) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  animation:xpScan .55s linear infinite;
+}
+
+@keyframes xpWrapJolt{
+  0%{transform:translate3d(0,0,0) skewX(0)}
+  20%{transform:translate3d(-2px,1px,0) skewX(-1deg)}
+  40%{transform:translate3d(2px,-1px,0) skewX(1deg)}
+  60%{transform:translate3d(-1px,-1px,0) skewX(.4deg)}
+  80%{transform:translate3d(1px,1px,0) skewX(-.5deg)}
+  100%{transform:translate3d(0,0,0)}
+}
+@keyframes xpMainFlicker{
+  0%,8%,13%,29%,34%,58%,62%,100%{opacity:1}
+  9%,12%{opacity:.28}
+  30%,33%{opacity:.6}
+  59%,61%{opacity:.42}
+}
+@keyframes xpGhostA{
+  0%{transform:translate(-5px,1px)}
+  33%{transform:translate(4px,-2px)}
+  66%{transform:translate(-2px,3px)}
+  100%{transform:translate(-5px,1px)}
+}
+@keyframes xpGhostB{
+  0%{transform:translate(5px,-2px)}
+  35%{transform:translate(-3px,2px)}
+  70%{transform:translate(2px,3px)}
+  100%{transform:translate(5px,-2px)}
+}
+@keyframes xpCharA{
+  0%,100%{transform:translate(0,0) rotate(0)}
+  50%{transform:translate(-3px,-2px) rotate(-2deg)}
+}
+@keyframes xpCharB{
+  0%,100%{transform:translate(0,0)}
+  45%{transform:translate(3px,2px) skewY(3deg)}
+}
+@keyframes xpCharC{
+  0%,100%{transform:translate(0,0)}
+  35%{transform:translate(-2px,3px) scaleY(1.06)}
+  70%{transform:translate(2px,-2px) scaleX(.96)}
+}
+@keyframes xpDots{
+  0%,100%{opacity:.86;transform:translateY(0)}
+  50%{opacity:.35;transform:translateY(-2px)}
+}
+@keyframes xpNoiseA{
+  0%{transform:translateX(-50%) translate(0,0);opacity:.28}
+  50%{transform:translateX(-50%) translate(8px,-4px);opacity:.58}
+  100%{transform:translateX(-50%) translate(-5px,3px);opacity:.22}
+}
+@keyframes xpNoiseB{
+  0%{transform:translateX(-50%) translate(0,0);opacity:.35}
+  50%{transform:translateX(-50%) translate(-7px,4px);opacity:.55}
+  100%{transform:translateX(-50%) translate(6px,-3px);opacity:.26}
+}
+@keyframes xpScan{
+  from{transform:translateY(0)}
+  to{transform:translateY(4px)}
+}
+
+@media(max-width:700px){
+  .xp-glitch-wrap{
+    width:90vw;
+    font-size:clamp(39px,11vw,68px);
+    line-height:1.3;
+  }
+  .xp-noise{
+    width:94vw;
+    font-size:clamp(14px,5vw,24px);
+    letter-spacing:.22em;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .xp-glitch-wrap,
+  .xp-glitch-main,
+  .xp-glitch-layer,
+  .xp-glitch-main span,
+  .xp-noise,
+  .xp-scanlines{
+    animation:none !important;
+  }
+}
+
+
+/* ===== P8 MAX cross-platform corruption ===== */
+
+.maxglitch-page{
+  position:relative;
+  min-height:calc(100vh - 150px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.maxglitch-wrap{
+  position:relative;
+  width:min(1180px,94vw);
+  text-align:center;
+  color:#f0182f;
+  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC","Arial Unicode MS",sans-serif;
+  font-weight:900;
+  font-size:clamp(44px,7.4vw,104px);
+  line-height:1.45;
+  letter-spacing:.005em;
+  word-break:break-word;
+  z-index:3;
+  transform:translateZ(0);
+  animation:maxWholeJolt .18s infinite steps(2,end),
+            maxWholeBlink 1.06s infinite steps(1,end);
+}
+
+.maxglitch-main{
+  position:relative;
+  z-index:5;
+  text-shadow:
+    3px 0 0 rgba(255,60,70,.95),
+    -3px 0 0 rgba(75,0,10,.95),
+    0 2px 0 rgba(255,20,40,.55),
+    0 0 9px rgba(255,0,25,.9),
+    0 0 26px rgba(255,0,20,.38);
+}
+
+.cg{
+  position:relative;
+  display:inline-block;
+  width:.92em;
+  height:1.25em;
+  vertical-align:middle;
+  margin:0 -.03em;
+  animation:maxCharShake .31s infinite steps(2,end);
+}
+
+.cg:nth-of-type(2n){
+  animation-duration:.41s;
+  animation-direction:reverse;
+}
+
+.cg:nth-of-type(3n){
+  animation-duration:.27s;
+}
+
+.cg b{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font:inherit;
+  color:#f0182f;
+  z-index:3;
+}
+
+.cm{
+  position:absolute;
+  z-index:5;
+  font-style:normal;
+  font-family:"Arial Unicode MS","Microsoft JhengHei","Noto Sans Symbols 2",sans-serif;
+  font-size:.30em;
+  line-height:1;
+  color:#ff3348;
+  text-shadow:0 0 3px rgba(255,0,0,.8);
+  opacity:.9;
+  pointer-events:none;
+}
+
+.cm1{left:3%; top:1%; transform:rotate(-18deg) scaleX(1.35)}
+.cm2{right:-2%; top:16%; transform:rotate(13deg) scale(1.15)}
+.cm3{left:18%; bottom:0%; transform:rotate(90deg) scaleY(1.4)}
+.cm4{right:12%; bottom:13%; transform:rotate(-32deg)}
+.cm5{left:38%; top:-10%; transform:rotate(6deg) scale(1.2)}
+
+.cg:nth-child(2n) .cm1{left:68%; top:-4%}
+.cg:nth-child(2n) .cm2{right:48%; top:8%}
+.cg:nth-child(2n) .cm3{left:2%; bottom:7%}
+.cg:nth-child(2n) .cm4{right:-4%; bottom:-2%}
+.cg:nth-child(2n) .cm5{left:28%; top:72%}
+
+.cg:nth-child(3n) .cm1{left:-8%; top:22%}
+.cg:nth-child(3n) .cm2{right:12%; top:-8%}
+.cg:nth-child(3n) .cm3{left:56%; bottom:0}
+.cg:nth-child(3n) .cm4{right:48%; bottom:19%}
+.cg:nth-child(3n) .cm5{left:76%; top:47%}
+
+.dots{
+  display:inline-block;
+  position:relative;
+  color:#f0182f;
+  margin:0 .02em;
+  animation:maxDots .73s infinite steps(2,end);
+}
+
+.dots i{
+  font-style:normal;
+  font-size:.33em;
+  vertical-align:super;
+  display:inline-block;
+  margin:0 -.15em;
+  color:#ff4a58;
+  transform:rotate(-18deg);
+}
+
+.bracket{
+  display:inline-block;
+  animation:maxBracket .45s infinite steps(2,end);
+}
+
+/* permanent damaged ghost layers */
+.maxghost{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  font-size:.97em;
+  line-height:1.45;
+  letter-spacing:.01em;
+  word-break:break-word;
+  color:#ff2239;
+  z-index:1;
+  opacity:.55;
+  mix-blend-mode:screen;
+}
+
+.ghost-a{
+  transform:translate(-5px,2px);
+  text-shadow:6px 0 0 rgba(110,0,8,.9);
+  animation:maxGhostA .24s infinite steps(2,end);
+}
+
+.ghost-b{
+  transform:translate(5px,-3px);
+  color:#a60018;
+  opacity:.46;
+  text-shadow:-5px 0 0 rgba(255,65,80,.8);
+  animation:maxGhostB .29s infinite steps(2,end);
+}
+
+/* thick "corruption fragments" floating over the whole line */
+.maxglitch-noise{
+  position:absolute;
+  left:50%;
+  width:98vw;
+  transform:translateX(-50%);
+  text-align:center;
+  font-family:"Arial Unicode MS","Microsoft JhengHei",sans-serif;
+  font-weight:900;
+  color:rgba(255,28,48,.62);
+  font-size:clamp(17px,3.2vw,38px);
+  letter-spacing:.42em;
+  white-space:normal;
+  z-index:2;
+  pointer-events:none;
+  text-shadow:0 0 6px rgba(255,0,0,.55);
+}
+
+.n1{
+  top:20%;
+  animation:maxNoise1 .33s infinite steps(2,end);
+}
+
+.n2{
+  bottom:18%;
+  animation:maxNoise2 .38s infinite steps(2,end);
+}
+
+.maxglitch-grid{
+  position:absolute;
+  inset:0;
+  z-index:6;
+  pointer-events:none;
+  opacity:.20;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.12) 0px,
+      rgba(255,255,255,.12) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  animation:maxScan .36s linear infinite;
+}
+
+@keyframes maxWholeJolt{
+  0%{transform:translate3d(0,0,0) skewX(0)}
+  20%{transform:translate3d(-3px,1px,0) skewX(-1.3deg)}
+  40%{transform:translate3d(2px,-2px,0) skewX(.9deg)}
+  60%{transform:translate3d(-1px,2px,0) skewX(.4deg)}
+  80%{transform:translate3d(3px,0,0) skewX(-.7deg)}
+  100%{transform:translate3d(0,0,0)}
+}
+
+@keyframes maxWholeBlink{
+  0%,7%,11%,22%,27%,49%,54%,78%,82%,100%{opacity:1}
+  8%,10%{opacity:.30}
+  23%,26%{opacity:.55}
+  50%,53%{opacity:.38}
+  79%,81%{opacity:.68}
+}
+
+@keyframes maxCharShake{
+  0%,100%{transform:translate(0,0) rotate(0deg) scale(1)}
+  33%{transform:translate(-3px,-2px) rotate(-2deg) scaleY(1.04)}
+  66%{transform:translate(3px,2px) rotate(1.3deg) scaleX(.97)}
+}
+
+@keyframes maxDots{
+  0%,100%{opacity:.9;transform:translateY(0)}
+  50%{opacity:.42;transform:translateY(-3px)}
+}
+
+@keyframes maxBracket{
+  0%,100%{transform:translateX(0)}
+  50%{transform:translateX(3px)}
+}
+
+@keyframes maxGhostA{
+  0%{transform:translate(-6px,2px)}
+  33%{transform:translate(5px,-3px)}
+  66%{transform:translate(-2px,4px)}
+  100%{transform:translate(-6px,2px)}
+}
+
+@keyframes maxGhostB{
+  0%{transform:translate(6px,-3px)}
+  33%{transform:translate(-4px,3px)}
+  66%{transform:translate(3px,4px)}
+  100%{transform:translate(6px,-3px)}
+}
+
+@keyframes maxNoise1{
+  0%{transform:translateX(-50%) translate(0,0);opacity:.38}
+  50%{transform:translateX(-50%) translate(11px,-5px);opacity:.70}
+  100%{transform:translateX(-50%) translate(-8px,4px);opacity:.30}
+}
+
+@keyframes maxNoise2{
+  0%{transform:translateX(-50%) translate(0,0);opacity:.45}
+  50%{transform:translateX(-50%) translate(-10px,5px);opacity:.68}
+  100%{transform:translateX(-50%) translate(8px,-4px);opacity:.28}
+}
+
+@keyframes maxScan{
+  from{transform:translateY(0)}
+  to{transform:translateY(4px)}
+}
+
+@media(max-width:700px){
+  .maxglitch-wrap{
+    width:92vw;
+    font-size:clamp(39px,11.5vw,70px);
+    line-height:1.48;
+  }
+  .maxglitch-noise{
+    width:96vw;
+    font-size:clamp(15px,5vw,26px);
+    letter-spacing:.28em;
+  }
+  .cm{
+    font-size:.34em;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  /* Keep the static corruption visible even with reduced motion. */
+  .maxglitch-wrap,
+  .maxglitch-main,
+  .maxghost,
+  .cg,
+  .dots,
+  .bracket,
+  .maxglitch-noise,
+  .maxglitch-grid{
+    animation:none !important;
+  }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function () {
   var autoTimer = null;
@@ -857,9 +1382,16 @@ tw-passage.p12-shutting .p12-stage {
 &lt;p&gt;刺耳、重複、絲毫沒有要停下的警示音狂暴的響著。下一秒空氣中的神性就在剎那間無聲地收束，像是滿溢的潮水迅速的退去，警示音停下，世界彷彿被抽了真空一樣寂靜無聲。&lt;/p&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="9" name="p8" tags="" position="640,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p7]]&lt;/div&gt;
 &lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p9]]&lt;/div&gt;
-&lt;div class=&quot;corrupt-page android-corrupt-page&quot;&gt;
-  &lt;div class=&quot;android-corrupt&quot; aria-label=&quot;宋旼琦，你願望是什麼？&quot;&gt;
-    【&lt;span&gt;宋&lt;/span&gt;&lt;span&gt;旼&lt;/span&gt;&lt;span&gt;琦&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;你&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;願&lt;/span&gt;&lt;span&gt;望&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;是&lt;/span&gt;&lt;span&gt;什&lt;/span&gt;&lt;span&gt;麼&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;……&lt;/span&gt;&lt;span&gt;？&lt;/span&gt;】
+
+&lt;div class=&quot;maxglitch-page&quot;&gt;
+  &lt;div class=&quot;maxglitch-grid&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;maxglitch-noise n1&quot; aria-hidden=&quot;true&quot;&gt;╱ × ┆ ҈ ╲ ┋ ⧸ ҉ ⌇ ╱ × ┆ ╲ ⧸ ┋&lt;/div&gt;
+  &lt;div class=&quot;maxglitch-noise n2&quot; aria-hidden=&quot;true&quot;&gt;┋ ⧸ ╲ × ╱ ҈ ⌁ ┆ ҉ ╱ ⌇ × ┋ ⧸ ╲&lt;/div&gt;
+
+  &lt;div class=&quot;maxglitch-wrap&quot; aria-label=&quot;宋旼琦……你……願望……是什麼……？&quot;&gt;
+    &lt;div class=&quot;maxghost ghost-a&quot; aria-hidden=&quot;true&quot;&gt;【╱宋҈┆旼╲×琦⧸…┋…╱你⌁…×…願҈╲望┆…⧸…是╱什×麼╲…┋…？】&lt;/div&gt;
+    &lt;div class=&quot;maxghost ghost-b&quot; aria-hidden=&quot;true&quot;&gt;【宋⧸╱旼┆҉琦×╲…⌇…你╱┋…҈…願╲望⧸…╱…是┆什҈麼×…╲…？】&lt;/div&gt;
+    &lt;div class=&quot;maxglitch-main&quot;&gt;&lt;span class=&quot;bracket&quot;&gt;【&lt;/span&gt;&lt;span class=&quot;cg cg1&quot;&gt;&lt;b&gt;宋&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;҈&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;┆&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;cg cg2&quot;&gt;&lt;b&gt;旼&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;┋&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;҉&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⌇&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;cg cg3&quot;&gt;&lt;b&gt;琦&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;┆&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;…&lt;i&gt;╱&lt;/i&gt;…&lt;i&gt;┋&lt;/i&gt;…&lt;/span&gt;&lt;span class=&quot;cg cg4&quot;&gt;&lt;b&gt;你&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;⌁&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;┋&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;…&lt;i&gt;×&lt;/i&gt;…&lt;i&gt;╲&lt;/i&gt;…&lt;/span&gt;&lt;span class=&quot;cg cg5&quot;&gt;&lt;b&gt;願&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;҈&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;┆&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⌇&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;cg cg6&quot;&gt;&lt;b&gt;望&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;҉&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;┋&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;…&lt;i&gt;⌇&lt;/i&gt;…&lt;i&gt;҈&lt;/i&gt;…&lt;/span&gt;&lt;span class=&quot;cg cg7&quot;&gt;&lt;b&gt;是&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;┆&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;⌁&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;cg cg8&quot;&gt;&lt;b&gt;什&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;┋&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;҈&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⌇&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;cg cg9&quot;&gt;&lt;b&gt;麼&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;҉&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;┆&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;╲&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;dots&quot;&gt;…&lt;i&gt;╱&lt;/i&gt;…&lt;i&gt;×&lt;/i&gt;…&lt;/span&gt;&lt;span class=&quot;cg cg10&quot;&gt;&lt;b&gt;？&lt;/b&gt;&lt;i class=&quot;cm cm1&quot; aria-hidden=&quot;true&quot;&gt;┋&lt;/i&gt;&lt;i class=&quot;cm cm2&quot; aria-hidden=&quot;true&quot;&gt;╱&lt;/i&gt;&lt;i class=&quot;cm cm3&quot; aria-hidden=&quot;true&quot;&gt;×&lt;/i&gt;&lt;i class=&quot;cm cm4&quot; aria-hidden=&quot;true&quot;&gt;⌇&lt;/i&gt;&lt;i class=&quot;cm cm5&quot; aria-hidden=&quot;true&quot;&gt;⧸&lt;/i&gt;&lt;/span&gt;&lt;span class=&quot;bracket&quot;&gt;】&lt;/span&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;</tw-passagedata><tw-passagedata pid="10" name="p9" tags="" position="820,250" size="130,110">&lt;div class=&quot;nav prev&quot;&gt;[[‹-&gt;p8]]&lt;/div&gt;&lt;div class=&quot;nav next&quot;&gt;[[›-&gt;p10]]&lt;/div&gt;&lt;div class=&quot;novel-page&quot;&gt;
 &lt;p&gt;黑暗之中，燈光倏然亮起。&lt;/p&gt;
