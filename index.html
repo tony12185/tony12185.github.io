@@ -346,6 +346,48 @@ tw-passage{width:100%!important;max-width:none!important;min-height:100dvh!impor
   .p12-stage { padding-top: 25dvh !important; }
 }
 
+
+/* ===== Layout refinements V4 ===== */
+
+/* Cover ENTER: much larger, but still smaller than the HALAZIA title */
+.cover-page tw-link,
+.cover-page a,
+.cover-page .link-internal {
+  font-size: 2.15em !important;
+  font-weight: 700 !important;
+  padding: 0.48em 1.15em !important;
+  min-width: 150px !important;
+}
+
+/* p1 grouped system text: about 1/6 down from top.
+   Opening two messages remain exactly centered via .p1-status rules. */
+.p1-group {
+  top: 16.667vh !important;
+}
+@supports (height: 100dvh) {
+  .p1-group { top: 16.667dvh !important; }
+}
+
+/* p12 yellow note: about 1/6 down from top */
+.p12-stage {
+  justify-content: flex-start !important;
+  padding-top: 14vh !important;
+  box-sizing: border-box !important;
+}
+@supports (height: 100dvh) {
+  .p12-stage { padding-top: 14dvh !important; }
+}
+
+@media(max-width:700px) {
+  .cover-page tw-link,
+  .cover-page a,
+  .cover-page .link-internal {
+    font-size: 1.85em !important;
+    min-width: 140px !important;
+  }
+  .p12-stage { padding-top: 13dvh !important; }
+}
+
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">
 (function () {
   var autoTimer = null;
