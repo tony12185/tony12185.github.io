@@ -194,20 +194,25 @@ enabled: false = 關閉章節
 */
 
 window.HALAZIA_CHAPTERS = [
-  { title: "HALAZIA", file: "HALAZIA.html", enabled: true },
-  { title: "WORK", file: "WORK.html", enabled: true },
-  { title: "Adrenaline", file: "Adrenaline.html", enabled: true },
-  { title: "Lemon Drop", file: "LemonDrop.html", enabled: true },
-  { title: "BOUNCY", file: "BOUNCY.html", enabled: true },
-  { title: "Ice On My Teeth", file: "IceOnMyTeeth.html", enabled: true },
-  { title: "In Your Fantasy", file: "InYourFantasy.html", enabled: true }
+  { title: "HALAZIA", file: "HALAZIA.html", enabled: false, unlockLocal: [2026, 8, 30, 23, 59, 59] },
+  { title: "WORK", file: "WORK.html", enabled: false, unlockLocal: [2026, 9, 1, 23, 59, 59] },
+  { title: "Adrenaline", file: "Adrenaline.html", enabled: false, unlockLocal: [2026, 9, 2, 23, 59, 59] },
+  { title: "Lemon Drop", file: "LemonDrop.html", enabled: false, unlockLocal: [2026, 9, 3, 23, 59, 59] },
+  { title: "BOUNCY", file: "BOUNCY.html", enabled: false, unlockLocal: [2026, 9, 4, 23, 59, 59] },
+  { title: "Ice On My Teeth", file: "IceOnMyTeeth.html", enabled: false, unlockLocal: [2026, 9, 5, 23, 59, 59] },
+  { title: "In Your Fantasy", file: "InYourFantasy.html", enabled: false, unlockLocal: [2026, 9, 6, 23, 59, 59] }
 ];
 
 function renderChapterMenu() {
   const host = document.querySelector("#chapter-list");
-  if (!host || host.dataset.ready === "1") return;
-
-  host.dataset.ready = "1";
+  if (!host) return;
+  const now = Date.now();
+  window.HALAZIA_CHAPTERS.forEach(chapter => {
+    chapter.enabled = now >= new Date(...chapter.unlockLocal).getTime();
+  });
+  const state = window.HALAZIA_CHAPTERS.map(c => c.enabled ? "1" : "0").join("");
+  if (host.dataset.releaseState === state) return;
+  host.dataset.releaseState = state;
   host.innerHTML = "";
 
   window.HALAZIA_CHAPTERS.forEach((chapter, index) => {
@@ -252,6 +257,11 @@ function renderChapterMenu() {
     }
     observer.observe(story, { childList: true, subtree: true });
     renderChapterMenu();
+    // Recheck the reader's local system clock, including after tab suspension.
+    setInterval(renderChapterMenu, 250);
+    window.addEventListener("focus", renderChapterMenu);
+    window.addEventListener("pageshow", renderChapterMenu);
+    document.addEventListener("visibilitychange", renderChapterMenu);
   }
 
   if (document.readyState === "loading") {
@@ -457,20 +467,25 @@ enabled: false = 關閉章節
 */
 
 window.HALAZIA_CHAPTERS = [
-  { title: "HALAZIA", file: "HALAZIA.html", enabled: true },
-  { title: "WORK", file: "WORK.html", enabled: true },
-  { title: "Adrenaline", file: "Adrenaline.html", enabled: true },
-  { title: "Lemon Drop", file: "LemonDrop.html", enabled: true },
-  { title: "BOUNCY", file: "BOUNCY.html", enabled: true },
-  { title: "Ice On My Teeth", file: "IceOnMyTeeth.html", enabled: true },
-  { title: "In Your Fantasy", file: "InYourFantasy.html", enabled: true }
+  { title: "HALAZIA", file: "HALAZIA.html", enabled: false, unlockLocal: [2026, 8, 30, 23, 59, 59] },
+  { title: "WORK", file: "WORK.html", enabled: false, unlockLocal: [2026, 9, 1, 23, 59, 59] },
+  { title: "Adrenaline", file: "Adrenaline.html", enabled: false, unlockLocal: [2026, 9, 2, 23, 59, 59] },
+  { title: "Lemon Drop", file: "LemonDrop.html", enabled: false, unlockLocal: [2026, 9, 3, 23, 59, 59] },
+  { title: "BOUNCY", file: "BOUNCY.html", enabled: false, unlockLocal: [2026, 9, 4, 23, 59, 59] },
+  { title: "Ice On My Teeth", file: "IceOnMyTeeth.html", enabled: false, unlockLocal: [2026, 9, 5, 23, 59, 59] },
+  { title: "In Your Fantasy", file: "InYourFantasy.html", enabled: false, unlockLocal: [2026, 9, 6, 23, 59, 59] }
 ];
 
 function renderChapterMenu() {
   const host = document.querySelector("#chapter-list");
-  if (!host || host.dataset.ready === "1") return;
-
-  host.dataset.ready = "1";
+  if (!host) return;
+  const now = Date.now();
+  window.HALAZIA_CHAPTERS.forEach(chapter => {
+    chapter.enabled = now >= new Date(...chapter.unlockLocal).getTime();
+  });
+  const state = window.HALAZIA_CHAPTERS.map(c => c.enabled ? "1" : "0").join("");
+  if (host.dataset.releaseState === state) return;
+  host.dataset.releaseState = state;
   host.innerHTML = "";
 
   window.HALAZIA_CHAPTERS.forEach((chapter, index) => {
@@ -515,6 +530,11 @@ function renderChapterMenu() {
     }
     observer.observe(story, { childList: true, subtree: true });
     renderChapterMenu();
+    // Recheck the reader's local system clock, including after tab suspension.
+    setInterval(renderChapterMenu, 250);
+    window.addEventListener("focus", renderChapterMenu);
+    window.addEventListener("pageshow", renderChapterMenu);
+    document.addEventListener("visibilitychange", renderChapterMenu);
   }
 
   if (document.readyState === "loading") {
