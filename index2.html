@@ -638,5 +638,110 @@ DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
 
---></body>
+--><script id="hui-visitor-tracker">
+(function () {
+  "use strict";
+  const ENDPOINT = "https://hui-visitor-log.tony12185.workers.dev/collect";
+  const PAGE_NAME = "index2.html";
+
+  function trackerReady() {
+    return /^https:\/\//.test(ENDPOINT) && !ENDPOINT.includes("REPLACE-WITH-YOUR-WORKER");
+  }
+
+  function getSessionId() {
+    const key = "hui_session_id";
+    let id = sessionStorage.getItem(key);
+    if (!id) {
+      id = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
+      sessionStorage.setItem(key, id);
+    }
+    return id;
+  }
+
+  function browserName(ua) {
+    if (/Edg\//.test(ua)) return "Edge";
+    if (/CriOS\//.test(ua)) return "Chrome iOS";
+    if (/Chrome\//.test(ua)) return "Chrome";
+    if (/FxiOS\//.test(ua)) return "Firefox iOS";
+    if (/Firefox\//.test(ua)) return "Firefox";
+    if (/Safari\//.test(ua) && /Version\//.test(ua)) return "Safari";
+    return "Other";
+  }
+
+  function osName(ua) {
+    if (/iPhone|iPad|iPod/.test(ua)) return "iOS/iPadOS";
+    if (/Android/.test(ua)) return "Android";
+    if (/Windows NT/.test(ua)) return "Windows";
+    if (/Mac OS X/.test(ua)) return "macOS";
+    if (/Linux/.test(ua)) return "Linux";
+    return "Other";
+  }
+
+  function deviceName(ua) {
+    if (/iPad|Tablet/.test(ua)) return "Tablet";
+    if (/Mobi|iPhone|Android/.test(ua)) return "Mobile";
+    return "Desktop";
+  }
+
+  function payload(eventType, extra) {
+    const ua = navigator.userAgent || "";
+    return Object.assign({
+      event_type: eventType,
+      page: PAGE_NAME,
+      chapter: "",
+      client_time: (function(){const d=new Date(),o=-d.getTimezoneOffset(),sg=o>=0?"+":"-",a=Math.abs(o),hh=String(Math.floor(a/60)).padStart(2,"0"),mm=String(a%60).padStart(2,"0");return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,19)+sg+hh+":"+mm;})(),
+      time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+      device: deviceName(ua),
+      os: osName(ua),
+      browser: browserName(ua),
+      referrer: document.referrer || "direct",
+      screen: screen.width + "x" + screen.height,
+      viewport: innerWidth + "x" + innerHeight,
+      language: navigator.language || "",
+      session_id: getSessionId()
+    }, extra || {});
+  }
+
+  function send(eventType, extra) {
+    if (!trackerReady()) return false;
+    const body = JSON.stringify(payload(eventType, extra));
+    try {
+      if (navigator.sendBeacon) {
+        const blob = new Blob([body], {type: "text/plain;charset=UTF-8"});
+        if (navigator.sendBeacon(ENDPOINT, blob)) return true;
+      }
+    } catch (_) {}
+    try {
+      fetch(ENDPOINT, {
+        method: "POST",
+        mode: "cors",
+        keepalive: true,
+        headers: {"Content-Type": "text/plain;charset=UTF-8"},
+        body: body
+      }).catch(function(){});
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  window.HUI_ANALYTICS = { send: send, endpointConfigured: trackerReady() };
+
+  const visitKey = "hui_visit_logged_" + PAGE_NAME;
+  if (!sessionStorage.getItem(visitKey)) {
+    sessionStorage.setItem(visitKey, "1");
+    send(PAGE_NAME === "index2.html" ? "preview_visit" : "visit");
+  }
+
+  document.addEventListener("click", function (event) {
+    const link = event.target.closest && event.target.closest("a.chapter-link");
+    if (!link) return;
+    const title = link.querySelector(".chapter-title");
+    send("chapter_click", {
+      chapter: title ? title.textContent.trim() : link.getAttribute("href") || ""
+    });
+  }, true);
+})();
+</script>
+</body>
 </html>
