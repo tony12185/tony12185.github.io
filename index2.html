@@ -641,7 +641,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 --><script id="hui-visitor-tracker">
 (function () {
   "use strict";
-  const ENDPOINT = "https://hui-visitor-log.tony12185.workers.dev/collect";
+  const ENDPOINT = "https://hui-visitor-log-d1.tony12185.workers.dev/collect";
   const PAGE_NAME = "index2.html";
 
   function trackerReady() {
@@ -728,8 +728,21 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   window.HUI_ANALYTICS = { send: send, endpointConfigured: trackerReady() };
 
   const visitKey = "hui_visit_logged_" + PAGE_NAME;
-  if (!sessionStorage.getItem(visitKey)) {
-    sessionStorage.setItem(visitKey, "1");
+  try {
+    if (!sessionStorage.getItem(visitKey) && trackerReady()) {
+      const visitBody = JSON.stringify(payload(PAGE_NAME === "index2.html" ? "preview_visit" : "visit"));
+      fetch(ENDPOINT, {
+        method: "POST",
+        mode: "cors",
+        keepalive: true,
+        headers: {"Content-Type": "text/plain;charset=UTF-8"},
+        body: visitBody
+      }).then(function(response){
+        if (response.ok) sessionStorage.setItem(visitKey, "1");
+      }).catch(function(){});
+    }
+  } catch (_) {
+    // If sessionStorage is unavailable (for example some file:// contexts), still attempt logging.
     send(PAGE_NAME === "index2.html" ? "preview_visit" : "visit");
   }
 
